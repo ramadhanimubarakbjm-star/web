@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEDIMPAY - Beranda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================= RESET & UMUM ================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: #090E17; color: #ffffff; line-height: 1.6; padding-bottom: 80px; /* Jarak untuk bottom nav */ }
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+
+        /* ================= HEADER ATAS ================= */
+        .top-header {
+            display: flex; justify-content: space-between; align-items: center; 
+            padding-bottom: 15px; border-bottom: 1px solid #1E2D4A; margin-bottom: 15px;
+        }
+        .realtime-date { font-size: 11px; color: #94A3B8; font-weight: 600; }
+        .realtime-clock { font-size: 14px; color: #0088FF; font-weight: 700; }
+        .header-icons { display: flex; align-items: center; gap: 15px; }
+        .icon-btn { background: none; border: none; color: #fff; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;}
+        .icon-btn svg { width: 22px; height: 22px; fill: currentColor; }
+        .icon-btn:hover { color: #0088FF; }
+        
+        .profile-icon svg { width: 32px; height: 32px; fill: #1E2D4A; }
+        .profile-circle {
+            background: #1A253C; border: 2px solid #0088FF; border-radius: 50%;
+            width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; overflow: hidden;
+        }
+
+        /* ================= GREETING ================= */
+        .greeting-section { margin-bottom: 20px; }
+        .welcome-text { font-size: 13px; color: #64748B; margin-bottom: 2px; }
+        .username-text { font-size: 20px; font-weight: 700; color: #fff; }
+        .username-text span { color: #0088FF; }
+
+        /* ================= SALDO & POINT CARD ================= */
+        .wallet-card {
+            background: linear-gradient(135deg, #1A253C, #111A28); border: 1px solid #2A3B5C;
+            border-radius: 15px; padding: 20px; display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .wallet-item { display: flex; flex-direction: column; flex: 1; }
+        .wallet-divider { width: 1px; background: #2A3B5C; height: 40px; margin: 0 15px; }
+        .wallet-label { font-size: 12px; color: #94A3B8; font-weight: 600; margin-bottom: 5px; }
+        .wallet-value { font-size: 18px; font-weight: 700; color: #FFD700; }
+        .wallet-value.saldo { color: #0088FF; }
+
+        /* ================= BANNER SLIDER ================= */
+        .banner-container { margin-bottom: 25px; position: relative; }
+        .carousel {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory; 
+            scroll-behavior: smooth; gap: 15px; border-radius: 12px;
+        }
+        .carousel::-webkit-scrollbar { display: none; } /* Sembunyikan scrollbar */
+        .carousel-slide {
+            min-width: 100%; scroll-snap-align: center; border-radius: 12px;
+            object-fit: cover; height: 160px; border: 1px solid #1E2D4A;
+        }
+        /* Indikator Titik */
+        .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+        .dot { width: 8px; height: 8px; background: #2A3B5C; border-radius: 50%; transition: 0.3s; }
+        .dot.active { background: #0088FF; width: 16px; border-radius: 4px; }
+
+        /* ================= KATEGORI & GRID PRODUK ================= */
+        .category-tabs {
+            display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px;
+        }
+        .category-tabs::-webkit-scrollbar { display: none; }
+        .cat-tab {
+            background: #1A253C; border: 1px solid #2A3B5C; color: #94A3B8; padding: 10px 20px;
+            border-radius: 25px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .cat-tab.active { background: #0088FF; color: #fff; border-color: #0088FF; }
+
+        .product-section { display: none; animation: fadeIn 0.4s ease; }
+        .product-section.active { display: block; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 30px; }
+        @media (max-width: 400px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .product-card {
+            background: #111A28; border: 1px solid #1E2D4A; border-radius: 12px; padding: 15px 10px;
+            text-align: center; cursor: pointer; transition: 0.3s; text-decoration: none; display: block;
+        }
+        .product-card:hover { border-color: #0088FF; transform: translateY(-3px); background: #1A253C;}
+        .product-icon { width: 50px; height: 50px; border-radius: 10px; margin-bottom: 10px; object-fit: cover; }
+        .product-name { font-size: 12px; font-weight: 600; color: #E2E8F0; }
+        .product-publisher { font-size: 10px; color: #64748B; margin-top: 3px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ================= SECTION DUKUNGAN ================= */
+        .support-box { background-color: #111A28; border-radius: 15px; padding: 20px; border: 1px solid #1E2D4A; margin-bottom: 30px;}
+        .section-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #fff; }
+        .support-list { display: flex; flex-direction: column; gap: 12px; }
+        .support-card-long {
+            background-color: #1A253C; border: 1px solid #2A3B5C; border-radius: 12px; padding: 15px 20px; 
+            text-decoration: none; color: #fff; display: flex; align-items: center; gap: 15px; transition: 0.3s;
+        }
+        .support-card-long:hover { background-color: #1E2D4A; border-color: #0088FF; transform: translateX(5px); }
+        
+        .ig-icon svg { width: 28px; height: 28px; }
+        .ig-icon { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .wa-icon { font-size: 24px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5)); }
+
+        /* ================= FOOTER ================= */
+        .footer { background-color: #090E17; border-top: 1px solid #1E2D4A; padding: 30px 20px 40px 20px; text-align: center; }
+        .about-brand { font-size: 18px; font-weight: 700; color: #0088FF; margin-bottom: 10px; }
+        .about-desc { font-size: 12px; color: #64748B; line-height: 1.6; }
+        
+        .footer-services { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #1E2D4A; }
+        .footer-services a { color: #E2E8F0; text-decoration: none; font-size: 12px; margin: 0 8px; transition: 0.3s; }
+        .footer-services a:hover { color: #0088FF; }
+
+        /* ================= BOTTOM NAVIGATION ================= */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: #090E17;
+            border-top: 1px solid #1E2D4A; padding: 10px 0; display: flex; justify-content: space-around;
+            align-items: center; z-index: 1000; padding-bottom: calc(10px + env(safe-area-inset-bottom));
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; text-decoration: none;
+            color: #64748B; font-size: 10px; font-weight: 600; gap: 5px; transition: 0.3s;
+        }
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .nav-item.active { color: #0088FF; }
+        .nav-item:hover { color: #FFD700; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="top-header">
+            <div>
+                <div class="realtime-date" id="currentDate">Memuat tanggal...</div>
+                <div class="realtime-clock" id="currentTime">00:00:00</div>
+            </div>
+            <div class="header-icons">
+                <button class="icon-btn">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </button>
+                <button class="icon-btn profile-circle">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="greeting-section">
+            <div class="welcome-text">Selamat datang di website KEDIMPAY,</div>
+            <div class="username-text">Halo, <span id="userName">User</span> 👋</div>
+        </div>
+
+        <div class="wallet-card">
+            <div class="wallet-item">
+                <span class="wallet-label">Saldo Anda</span>
+                <span class="wallet-value saldo">Rp 0</span>
+            </div>
+            <div class="wallet-divider"></div>
+            <div class="wallet-item">
+                <span class="wallet-label">KEDIM Point</span>
+                <span class="wallet-value">0 Pts</span>
+            </div>
+        </div>
+
+        <div class="banner-container">
+            <div class="carousel" id="bannerCarousel">
+                <img src="https://via.placeholder.com/600x250/0D1424/0088FF?text=PROMO+TOP+UP+GAME+1" class="carousel-slide" alt="Banner 1">
+                <img src="https://via.placeholder.com/600x250/1A253C/FFD700?text=DISKON+PULSA+%26+E-WALLET" class="carousel-slide" alt="Banner 2">
+                <img src="https://via.placeholder.com/600x250/111A28/00A2FF?text=CASHBACK+TIAP+HARI" class="carousel-slide" alt="Banner 3">
+            </div>
+            <div class="dots-container" id="bannerDots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="category-tabs">
+            <div class="cat-tab active" onclick="switchCategory('game', this)">🎮 Game</div>
+            <div class="cat-tab" onclick="switchCategory('pulsa', this)">📱 Pulsa / Kuota</div>
+            <div class="cat-tab" onclick="switchCategory('ewallet', this)">💳 E-Wallet</div>
+        </div>
+
+        <div id="cat-game" class="product-section active">
+            <div class="product-grid">
+                <a href="ml.html" class="product-card">
+                    <img src="https://i.ibb.co.com/6021RwVC/logoml.jpg" class="product-icon" alt="MLBB">
+                    <div class="product-name">Mobile Legends</div>
+                    <div class="product-publisher">Moonton</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/FF5500/FFFFFF?text=FF" class="product-icon" alt="Free Fire">
+                    <div class="product-name">Free Fire</div>
+                    <div class="product-publisher">Garena</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/FFB800/FFFFFF?text=PUBG" class="product-icon" alt="PUBG">
+                    <div class="product-name">PUBG Mobile</div>
+                    <div class="product-publisher">Tencent</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/0088FF/FFFFFF?text=VALO" class="product-icon" alt="Valorant">
+                    <div class="product-name">Valorant</div>
+                    <div class="product-publisher">Riot Games</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/8A2BE2/FFFFFF?text=GI" class="product-icon" alt="Genshin">
+                    <div class="product-name">Genshin Impact</div>
+                    <div class="product-publisher">HoYoverse</div>
+                </a>
+            </div>
+        </div>
+
+        <div id="cat-pulsa" class="product-section">
+            <div class="product-grid">
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/E3000F/FFFFFF?text=TSEL" class="product-icon" alt="Telkomsel">
+                    <div class="product-name">Telkomsel</div>
+                    <div class="product-publisher">Pulsa & Data</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/FFCC00/000000?text=ISAT" class="product-icon" alt="Indosat">
+                    <div class="product-name">Indosat</div>
+                    <div class="product-publisher">Pulsa & Data</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/0055A5/FFFFFF?text=XL" class="product-icon" alt="XL">
+                    <div class="product-name">XL Axiata</div>
+                    <div class="product-publisher">Pulsa & Data</div>
+                </a>
+            </div>
+        </div>
+
+        <div id="cat-ewallet" class="product-section">
+            <div class="product-grid">
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/108EE9/FFFFFF?text=DANA" class="product-icon" alt="Dana">
+                    <div class="product-name">DANA</div>
+                    <div class="product-publisher">Top Up Saldo</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/4C2A86/FFFFFF?text=OVO" class="product-icon" alt="OVO">
+                    <div class="product-name">OVO</div>
+                    <div class="product-publisher">Top Up Saldo</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/00AED6/FFFFFF?text=GPAY" class="product-icon" alt="GoPay">
+                    <div class="product-name">GoPay</div>
+                    <div class="product-publisher">Top Up Saldo</div>
+                </a>
+                <a href="#" class="product-card">
+                    <img src="https://via.placeholder.com/100/EE4D2D/FFFFFF?text=SPAY" class="product-icon" alt="Shopee">
+                    <div class="product-name">ShopeePay</div>
+                    <div class="product-publisher">Top Up Saldo</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="support-box">
+            <div class="section-title">Dukungan Pelanggan</div>
+            <div class="support-list">
+                <a href="#" class="support-card-long">
+                    <div class="support-icon ig-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+                    </div>
+                    <div style="font-size: 15px; font-weight: 600;">Instagram</div>
+                </a>
+                <a href="https://wa.me/6281234567890" target="_blank" class="support-card-long">
+                    <div class="support-icon wa-icon">📞</div>
+                    <div style="font-size: 15px; font-weight: 600;">WhatsApp</div>
+                </a>
+            </div>
+        </div>
+
+    </div> <footer class="footer">
+        <div class="about-brand">KEDIMPAY</div>
+        <div class="about-desc">
+            KEDIMPAY (Kebun Diamond Payment) adalah platform top-up games termurah, tercepat, dan terpercaya di Indonesia. Kami menyediakan layanan 24/7 untuk memastikan pengalaman bermain Anda tidak pernah terputus.
+        </div>
+        
+        <div class="footer-services">
+            <h4 style="color:#0088FF; margin-bottom: 10px; font-size: 14px;">Produk dan Layanan</h4>
+            <a href="#">Game</a>
+            <span style="color:#2A3B5C;">|</span>
+            <a href="#">Saluran Pembayaran</a>
+        </div>
+
+        <div style="margin-top: 25px; font-size: 12px; color: #64748B;">
+            &copy; 2024 KEDIMPAY. All Rights Reserved.<br>
+            <span style="font-size: 18px; display:inline-block; margin-top: 5px;">🇮🇩</span>
+        </div>
+    </footer>
+
+    <div class="bottom-nav">
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+            History
+        </a>
+        <a href="#" class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
+        </a>
+        <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            Dompet
+        </a>
+    </div>
+
+    <script>
+        // === 1. TANGGAL & WAKTU REALTIME ===
+        function updateTime() {
+            const now = new Date();
+            
+            const optionsDate = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('currentDate').innerText = now.toLocaleDateString('id-ID', optionsDate);
+
+            const timeString = now.toLocaleTimeString('id-ID', { hour12: false });
+            document.getElementById('currentTime').innerText = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime(); // Panggil sekali di awal
+
+        // === 2. LOGIKA KATEGORI PRODUK ===
+        function switchCategory(catId, btnElement) {
+            // Hapus class 'active' dari semua tombol tab
+            document.querySelectorAll('.cat-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Tambahkan class 'active' ke tombol yang ditekan
+            btnElement.classList.add('active');
+
+            // Sembunyikan semua section produk
+            document.querySelectorAll('.product-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Tampilkan section produk yang sesuai id
+            document.getElementById('cat-' + catId).classList.add('active');
+        }
+
+        // === 3. LOGIKA BANNER SLIDER OTOMATIS ===
+        const carousel = document.getElementById('bannerCarousel');
+        const dots = document.querySelectorAll('.dot');
+        let slideIndex = 0;
+        let slideInterval;
+
+        function updateDots(index) {
+            dots.forEach(d => d.classList.remove('active'));
+            dots[index].classList.add('active');
+        }
+
+        function autoSlide() {
+            slideIndex++;
+            if (slideIndex >= dots.length) { slideIndex = 0; }
+            
+            const slideWidth = carousel.clientWidth;
+            carousel.scrollTo({
+                left: slideWidth * slideIndex,
+                behavior: 'smooth'
+            });
+            updateDots(slideIndex);
+        }
+
+        // Jalankan auto slide setiap 4 detik
+        slideInterval = setInterval(autoSlide, 4000);
+
+        // Update indikator titik saat user menggeser (swipe) secara manual
+        carousel.addEventListener('scroll', () => {
+            const scrollLeft = carousel.scrollLeft;
+            const slideWidth = carousel.clientWidth;
+            // Hitung index saat ini berdasarkan posisi scroll
+            let newIndex = Math.round(scrollLeft / slideWidth);
+            
+            if (newIndex !== slideIndex) {
+                slideIndex = newIndex;
+                updateDots(slideIndex);
+                // Reset timer jika user scroll manual agar tidak berebut
+                clearInterval(slideInterval);
+                slideInterval = setInterval(autoSlide, 4000);
+            }
+        });
+    </script>
+</body>
+</html>

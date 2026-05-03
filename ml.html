@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEDIMPAY - Kebun Diamond Payment</title>
+    <link rel="stylesheet" href="ml.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        </div>
+        <div class="nav-center">
+            <img src="https://i.ibb.co.com/8nGxrn6C/LOGO-KEDIMPAY-POLOSAN-1.png" alt="Logo">
+            <h1>KEDIMPAY</h1>
+        </div>
+        <div class="nav-right">
+            <button class="search-btn">🔍</button>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="close-sidebar" onclick="toggleSidebar()">×</button>
+        <div class="sidebar-menu">
+            <a href="#">🏠 Beranda Utama</a>
+            <a href="#">📝 Daftar / Masuk Akun</a>
+            <a href="#">📋 Daftar Harga (Pricelist)</a>
+            <a href="#">📦 Lacak Pesanan</a>
+            <a href="#">🐛 Laporan Bug</a> 
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <div class="game-info-card">
+            <div class="game-info-header">
+                <img src="https://i.ibb.co.com/6021RwVC/logoml.jpg" class="game-logo" alt="MLBB">
+                <div class="game-title-wrapper">
+                    <div class="game-title">Mobile Legends</div>
+                    <div class="game-publisher">Moonton</div>
+                </div>
+            </div>
+            <div class="game-badges">
+                <span class="badge-tag">⚡ Instant</span>
+                <span class="badge-tag">🛡️ Terjamin</span>
+                <span class="badge-tag">🕒 24/7 Buka</span>
+            </div>
+            <div class="game-desc">
+                Proses top up otomatis 1-3 detik. Masukkan User ID dan Zone ID Anda, pilih nominal Diamonds, selesaikan pembayaran, dan Diamonds akan langsung masuk ke akun Anda.
+            </div>
+        </div>
+
+        <form id="topupForm">
+            <div class="section">
+                <div class="section-title"><div class="circle-num">1</div> Masukkan Data Akun</div>
+                <div class="input-group">
+                    <input type="number" id="userId" placeholder="Masukkan User ID" required>
+                    <input type="number" id="zoneId" placeholder="Masukkan Zone ID (Contoh: 1234)" required>
+                </div>
+                <div class="input-help">Klik menu profil di kiri atas menu utama game untuk melihat User ID & Zone ID.</div>
+                
+                <button type="button" class="btn-info-id" onclick="toggleInfoId()">❓ Cara Lihat ID</button>
+                <div class="info-id-img" id="infoIdImg">
+                    <img src="https://i.ibb.co.com/vx827VmD/Proyek-Baru-14-35111-CE.png" alt="Petunjuk Cara Lihat ID">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title"><div class="circle-num">2</div> Pilih Nominal</div>
+                
+                <div class="category-nav">
+                    <div class="cat-btn" onclick="scrollToElement('cat-weekly')">Weekly Pass</div>
+                    <div class="cat-btn" onclick="scrollToElement('cat-diamond')">Diamonds</div>
+                </div>
+
+                <div id="cat-weekly">
+                    <div class="cat-label">Weekly Pass</div>
+                    <div class="grid-3">
+                        <div class="card nominal-card" data-item="weekly_pass" data-price="28000">
+                            <div class="badge">HOT</div>
+                            <span class="item-name">Weekly Diamond Pass</span>
+                            <span class="item-price">Rp 28.000</span>
+                        </div>
+                        <div class="card nominal-card" data-item="weekly_pass_2" data-price="56000">
+                            <span class="item-name">2x Weekly Pass</span>
+                            <span class="item-price">Rp 56.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cat-diamond" style="padding-top: 15px;">
+                    <div class="cat-label">Top Up Diamonds</div>
+                    <div class="grid-3">
+                        <div class="card nominal-card" data-item="5_dm" data-price="1500"><span class="item-name">5 Diamonds</span><span class="item-price">Rp 1.500</span></div>
+                        <div class="card nominal-card" data-item="12_dm" data-price="3500"><span class="item-name">12 Diamonds</span><span class="item-price">Rp 3.500</span></div>
+                        <div class="card nominal-card" data-item="28_dm" data-price="8000"><span class="item-name">28 Diamonds</span><span class="item-price">Rp 8.000</span></div>
+                        <div class="card nominal-card" data-item="59_dm" data-price="16000"><span class="item-name">59 Diamonds</span><span class="item-price">Rp 16.000</span></div>
+                        <div class="card nominal-card" data-item="85_dm" data-price="23000"><span class="item-name">85 Diamonds</span><span class="item-price">Rp 23.000</span></div>
+                        <div class="card nominal-card" data-item="170_dm" data-price="46000"><span class="item-name">170 Diamonds</span><span class="item-price">Rp 46.000</span></div>
+                    </div>
+                </div>
+                <div class="error-msg" id="errorNominal">Pilih item dulu bos!</div>
+            </div>
+
+            <div class="section" id="paymentSection">
+                <div class="section-title"><div class="circle-num">3</div> Pilih Pembayaran</div>
+                
+                <div class="payment-accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">📱 E-Wallet & QRIS</div>
+                        <div class="accordion-icon">▼</div>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="payment-group">
+                            <div class="card payment-card" data-payment="qris">
+                                <span class="item-name">QRIS (All Payment)</span><span class="payment-price">Rp -</span>
+                            </div>
+                            <div class="card payment-card" data-payment="dana">
+                                <span class="item-name">DANA</span><span class="payment-price">Rp -</span>
+                            </div>
+                            <div class="card payment-card" data-payment="ovo">
+                                <span class="item-name">OVO</span><span class="payment-price">Rp -</span>
+                            </div>
+                            <div class="card payment-card" data-payment="gopay">
+                                <span class="item-name">GoPay</span><span class="payment-price">Rp -</span>
+                            </div>
+                            <div class="card payment-card" data-payment="shopeepay">
+                                <span class="item-name">ShopeePay</span><span class="payment-price">Rp -</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">🏦 Transfer Bank & VA</div>
+                        <div class="accordion-icon">▼</div>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="payment-group">
+                            <div class="card payment-card" data-payment="bca_va"><span class="item-name">BCA Virtual Account</span><span class="payment-price">Rp -</span></div>
+                            <div class="card payment-card" data-payment="mandiri_va"><span class="item-name">Mandiri Virtual Account</span><span class="payment-price">Rp -</span></div>
+                            <div class="card payment-card" data-payment="bni_va"><span class="item-name">BNI Virtual Account</span><span class="payment-price">Rp -</span></div>
+                            <div class="card payment-card" data-payment="bri_va"><span class="item-name">BRI Virtual Account</span><span class="payment-price">Rp -</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">🏪 OTC Non-Bank / Retail</div>
+                        <div class="accordion-icon">▼</div>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="payment-group">
+                            <div class="card payment-card" data-payment="alfamart"><span class="item-name">Alfamart</span><span class="payment-price">Rp -</span></div>
+                            <div class="card payment-card" data-payment="indomaret"><span class="item-name">Indomaret</span><span class="payment-price">Rp -</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-msg" id="errorPayment">Metodenya belum dipilih nih.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title"><div class="circle-num">4</div> Dukungan Pelanggan</div>
+                <div style="font-size: 13px; color: #aaa; margin-bottom: 15px;">Pilih jalur bantuan yang Anda inginkan:</div>
+                
+                <div class="support-list">
+                    <a href="#" class="support-card-long">
+                        <div class="support-icon ig-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
+                                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                            </svg>
+                        </div>
+                        <div class="support-title">Instagram</div>
+                    </a>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="support-card-long">
+                        <div class="support-icon">📞</div>
+                        <div class="support-title">WhatsApp</div>
+                    </a>
+                </div>
+
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div class="support-title" style="color: #FFD700;">🌟 Ulasan Pelanggan Terbaru</div>
+                    </div>
+                    
+                    <div class="feedback-carousel">
+                        <span id="feedbackText">"Mantap bos, diamond masuk 1 detik!" - B***i</span>
+                    </div>
+
+                    <button type="button" class="btn-toggle-reviews" onclick="toggleReviewSection()">👇 Tulis & Lihat Semua Ulasan</button>
+
+                    <div class="review-section-hidden" id="reviewSection">
+                        <div class="review-form">
+                            <input type="text" id="reviewName" placeholder="Nama Panggilan (Misal: Budi)" maxlength="15">
+                            <textarea id="reviewContent" rows="3" placeholder="Gimana pengalaman top up kamu di KEDIMPAY?"></textarea>
+                            <button type="button" class="btn-submit-review" onclick="submitReview()">Kirim Ulasan</button>
+                        </div>
+                        
+                        <div class="cat-label" style="font-size: 12px; margin-top: 15px;">Ulasan Lainnya</div>
+                        <div class="reviews-horizontal-list" id="reviewList">
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div> 
+    
+    <footer class="footer">
+        <div class="about-brand">KEDIMPAY</div>
+        <div class="about-desc">
+            KEDIMPAY (Kebun Diamond Payment) adalah platform top-up games termurah, tercepat, dan terpercaya di Indonesia. Kami menyediakan layanan 24/7 untuk memastikan pengalaman bermain Anda tidak pernah terputus.
+        </div>
+        
+        <div class="footer-services">
+            <h4 style="color:#0088FF; margin-bottom: 10px; font-size: 14px;">Produk dan Layanan</h4>
+            <a href="#">Game</a>
+            <span style="color:#2A3B5C;">|</span>
+            <a href="#">Saluran Pembayaran</a>
+        </div>
+
+        <div style="margin-top: 25px; font-size: 12px; color: #64748B;">
+            &copy; 2024 KEDIMPAY. All Rights Reserved.<br>
+            <span style="font-size: 18px; display:inline-block; margin-top: 5px;">🇮🇩</span>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="reviewModalOverlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="font-weight: bold; color: #FFD700;">🌟 Semua Ulasan</div>
+                <button class="modal-close-btn" onclick="closeModalBtn()">✖</button>
+            </div>
+            <div class="modal-body" id="fullReviewList">
+                </div>
+        </div>
+    </div>
+
+    <div class="checkout-bar" id="checkoutBar">
+        <div class="total-price">
+            Total Harga:
+            <span id="displayPrice">Rp 0</span>
+        </div>
+        <button type="submit" form="topupForm" class="submit-btn" id="btnBeli">Beli Sekarang</button>
+    </div>
+
+    <script>
+        // --- LOGIKA SIDEBAR ---
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        // --- LOGIKA MUNCULKAN GAMBAR CARA LIHAT ID ---
+        function toggleInfoId() {
+            document.getElementById('infoIdImg').classList.toggle('show');
+        }
+
+        // --- LOGIKA ACCORDION PEMBAYARAN ---
+        function toggleAccordion(headerElement) {
+            const parent = headerElement.parentElement;
+            parent.classList.toggle('active');
+        }
+
+        function scrollToElement(id) {
+            const element = document.getElementById(id);
+            const y = element.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+
+        let selectedItem = null;
+        let selectedPayment = null;
+        let currentPrice = 0;
+
+        const priceDisplay = document.getElementById('displayPrice');
+        const paymentPrices = document.querySelectorAll('.payment-price');
+        const checkoutBar = document.getElementById('checkoutBar');
+
+        document.querySelectorAll('.nominal-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.nominal-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                
+                selectedItem = card.getAttribute('data-item');
+                currentPrice = parseInt(card.getAttribute('data-price'));
+                const formattedPrice = 'Rp ' + currentPrice.toLocaleString('id-ID');
+                
+                checkoutBar.classList.add('show');
+
+                priceDisplay.innerText = formattedPrice;
+                priceDisplay.classList.remove('pop-anim');
+                void priceDisplay.offsetWidth; 
+                priceDisplay.classList.add('pop-anim');
+
+                paymentPrices.forEach(priceText => { priceText.innerText = formattedPrice; });
+                document.getElementById('errorNominal').style.display = 'none';
+
+                setTimeout(() => { scrollToElement('paymentSection'); }, 300);
+            });
+        });
+
+        document.querySelectorAll('.payment-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                selectedPayment = card.getAttribute('data-payment');
+                document.getElementById('errorPayment').style.display = 'none';
+            });
+        });
+
+        // --- LOGIKA ULASAN ---
+        let feedbacksData = [
+            { name: "R***i", text: "Top up terpercaya, langganan banget di Kedimpay!" },
+            { name: "A***a", text: "Prosesnya hitungan detik bos, mantap!" },
+            { name: "D***s", text: "Harga pelajar, kualitas sultan. Makasih min!" },
+            { name: "S***a", text: "CS nya responsif banget ngebantu pas bingung." },
+            { name: "K***e", text: "Websitenya keren dan gampang dipake!" }
+        ];
+
+        let fbIndex = 0;
+        const fbElement = document.getElementById('feedbackText');
+
+        setInterval(() => {
+            fbElement.style.opacity = 0; 
+            setTimeout(() => {
+                fbIndex = (fbIndex + 1) % feedbacksData.length;
+                let currentData = feedbacksData[fbIndex];
+                fbElement.innerText = `"${currentData.text}" - ${currentData.name}`;
+                fbElement.style.opacity = 1; 
+            }, 400); 
+        }, 3500);
+
+        function toggleReviewSection() {
+            const section = document.getElementById('reviewSection');
+            section.classList.toggle('show');
+            if (section.classList.contains('show')) {
+                renderReviewList();
+            }
+        }
+
+        // Fungsi Render Carousel (List Horizontal)
+        function renderReviewList() {
+            const listContainer = document.getElementById('reviewList');
+            listContainer.innerHTML = ''; 
+
+            let reversedData = [...feedbacksData].reverse();
+            
+            // Render maksimal 5 ulasan di list horizontal agar rapi
+            let limit = Math.min(reversedData.length, 5);
+            for(let i = 0; i < limit; i++) {
+                const item = reversedData[i];
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <div class="review-card-text">"${item.text}"</div>
+                    <div class="review-card-name">- ${item.name}</div>
+                `;
+                listContainer.appendChild(card);
+            }
+
+            // Tambahkan Card "Ulasan Lengkap" di paling akhir slide
+            const btnCard = document.createElement('div');
+            btnCard.className = 'review-card view-all-card';
+            btnCard.innerHTML = `<div style="margin: auto; font-weight: bold; color:#0088FF; text-align:center;">Lihat Ulasan Lengkap ➔</div>`;
+            btnCard.onclick = openModal;
+            listContainer.appendChild(btnCard);
+        }
+
+        function submitReview() {
+            const nameInput = document.getElementById('reviewName');
+            const textInput = document.getElementById('reviewContent');
+            let nameVal = nameInput.value.trim();
+            let textVal = textInput.value.trim();
+
+            if (!textVal) { alert("Isi pesan ulasannya dulu ya kak!"); return; }
+            if (!nameVal) nameVal = "Guest";
+
+            feedbacksData.push({ name: nameVal, text: textVal });
+            nameInput.value = ''; textInput.value = '';
+
+            renderReviewList();
+            alert("Terima kasih! Ulasan kamu berhasil dikirim.");
+        }
+
+        // --- LOGIKA MODAL ULASAN ---
+        function openModal() {
+            document.getElementById('reviewModalOverlay').classList.add('active');
+            const modalBody = document.getElementById('fullReviewList');
+            modalBody.innerHTML = '';
+
+            [...feedbacksData].reverse().forEach(item => {
+                modalBody.innerHTML += `
+                    <div style="background: #1A253C; padding: 12px; border-radius: 8px; border: 1px solid #2A3B5C;">
+                        <div style="font-size: 13px; color: #E2E8F0; margin-bottom: 5px; font-style: italic;">"${item.text}"</div>
+                        <div style="font-size: 12px; color: #FFD700; text-align: right; font-weight: bold;">- ${item.name}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function closeModal(event) {
+            if(event.target.id === 'reviewModalOverlay') {
+                document.getElementById('reviewModalOverlay').classList.remove('active');
+            }
+        }
+        function closeModalBtn() {
+            document.getElementById('reviewModalOverlay').classList.remove('active');
+        }
+
+        // --- SUBMIT FORM ---
+        document.getElementById('topupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let valid = true;
+
+            if (!selectedItem) { 
+                document.getElementById('errorNominal').style.display = 'block'; 
+                valid = false; 
+                scrollToElement('errorNominal'); 
+            } else if (!selectedPayment) { 
+                document.getElementById('errorPayment').style.display = 'block'; 
+                valid = false; 
+                
+                const paymentParent = document.querySelector(`[data-payment="${selectedPayment}"]`);
+                if(!paymentParent) {
+                    document.querySelector('.payment-accordion').classList.add('active');
+                }
+                scrollToElement('errorPayment'); 
+            }
+
+            if (valid) {
+                const btn = document.getElementById('btnBeli');
+                btn.innerText = "Memproses...";
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    alert(`✅ Transaksi KEDIMPAY\n\nGame: Mobile Legends\nID: ${document.getElementById('userId').value}\nItem: ${selectedItem}\nMetode: ${selectedPayment.toUpperCase()}\nTotal: Rp ${currentPrice.toLocaleString('id-ID')}`);
+                    btn.innerText = "Beli Sekarang";
+                    btn.disabled = false;
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
